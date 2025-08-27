@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Company Leaderboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: #f4f6fc;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px 20px;
+    }
+
+    h2 {
+      font-size: 32px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #222;
+    }
+
+    /* Domain Filter Section */
+    .domain-filter {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    .domain-filter button {
+      background: #fff;
+      border: 2px solid #4a4aef;
+      color: #4a4aef;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .domain-filter button:hover,
+    .domain-filter button.active {
+      background: #4a4aef;
+      color: #fff;
+    }
+
+    /* Dropdown Queue */
+    .dropdown {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 60px;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      overflow: hidden;
+      min-width: 220px;
+      z-index: 100;
+    }
+    .dropdown button {
+      border: none;
+      background: #fff;
+      padding: 10px 15px;
+      text-align: left;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+    .dropdown button:hover {
+      background: #f0f0ff;
+    }
+
+    /* Leaderboard Container */
+    .leaderboard {
+      width: 100%;
+      max-width: 900px;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    /* Entry Row */
+    .entry {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 28px;
+      transition: background 0.3s;
+      border-bottom: 1px solid #eee;
+    }
+    .entry:last-child {
+      border-bottom: none;
+    }
+    .entry:hover {
+      background: #f9f9ff;
+    }
+
+    /* Rank + Avatar + Details */
+    .entry-left {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .rank {
+      font-weight: bold;
+      font-size: 20px;
+      width: 30px;
+      text-align: center;
+    }
+    .avatar {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #ddd;
+    }
+    .details {
+      display: flex;
+      flex-direction: column;
+    }
+    .details span:first-child {
+      font-weight: 600;
+      font-size: 16px;
+      color: #111;
+    }
+    .details span:nth-child(2) {
+      font-size: 14px;
+      color: #666;
+    }
+    .details span.domain {
+      font-size: 13px;
+      color: #4a4aef;
+      font-weight: 500;
+    }
+
+    /* Points */
+    .points {
+      font-weight: 700;
+      color: #4a4aef;
+      font-size: 16px;
+    }
+
+    /* Highlight top 3 */
+    .highlight-1 {
+      background: linear-gradient(90deg, #fff7cc, #fff);
+    }
+    .highlight-2 {
+      background: linear-gradient(90deg, #d2e274, #fff);
+    }
+    .highlight-3 {
+      background: linear-gradient(90deg, #f8c788, #fff);
+    }
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 25px;
+      gap: 20px;
+      font-size: 15px;
+    }
+    .pagination button {
+      border: none;
+      background: #4a4aef;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    .pagination button:hover {
+      background: #3333cc;
+    }
+    .pagination span {
+      font-weight: 600;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Top Positions in Companies</h2>
+
+  <!-- Domain Filter Section -->
+  <div class="domain-filter">
+    <button onclick="toggleDropdown('all')">All</button>
+    <div id="dropdown-all" class="dropdown">
+      <button>Show Everything</button>
+      <button>Top 5 Companies</button>
+      <button>Highest Rated Mentors</button>
+    </div>
+
+    <button onclick="toggleDropdown('dev')">Software Development</button>
+    <div id="dropdown-dev" class="dropdown">
+      <button>Frontend Developer</button>
+      <button>Backend Developer</button>
+      <button>Full Stack Developer</button>
+    </div>
+
+    <button onclick="toggleDropdown('ml')">AI & ML</button>
+    <div id="dropdown-ml" class="dropdown">
+      <button>ML Engineer</button>
+      <button>AI Researcher</button>
+      <button>Data Scientist</button>
+    </div>
+
+    <button onclick="toggleDropdown('pm')">Product Management</button>
+    <div id="dropdown-pm" class="dropdown">
+      <button>Associate PM</button>
+      <button>Product Manager</button>
+      <button>Senior PM</button>
+    </div>
+
+    <button onclick="toggleDropdown('design')">Design</button>
+    <div id="dropdown-design" class="dropdown">
+      <button>UI Designer</button>
+      <button>UX Designer</button>
+      <button>Product Designer</button>
+    </div>
+  </div>
+
+  <div class="leaderboard">
+    <!-- Rank 1 -->
+    <div class="entry highlight-1">
+      <div class="entry-left">
+        <span class="rank">1</span>
+        <img class="avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="">
+        <div class="details">
+          <span>Google</span>
+          <span>Software Engineer</span>
+          <span class="domain">Domain: Software Development</span>
+        </div>
+      </div>
+      <div class="points">5,240 pts</div>
+    </div>
+
+    <!-- Rank 2 -->
+    <div class="entry highlight-2">
+      <div class="entry-left">
+        <span class="rank">2</span>
+        <img class="avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="">
+        <div class="details">
+          <span>Amazon</span>
+          <span>Data Scientist</span>
+          <span class="domain">Domain: AI & Analytics</span>
+        </div>
+      </div>
+      <div class="points">4,890 pts</div>
+    </div>
+
+    <!-- Rank 3 -->
+    <div class="entry highlight-3">
+      <div class="entry-left">
+        <span class="rank">3</span>
+        <img class="avatar" src="https://randomuser.me/api/portraits/men/21.jpg" alt="">
+        <div class="details">
+          <span>Microsoft</span>
+          <span>Product Manager</span>
+          <span class="domain">Domain: Product Strategy</span>
+        </div>
+      </div>
+      <div class="points">4,650 pts</div>
+    </div>
+
+    <!-- Rank 4 -->
+    <div class="entry">
+      <div class="entry-left">
+        <span class="rank">4</span>
+        <img class="avatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="">
+        <div class="details">
+          <span>Meta</span>
+          <span>ML Engineer</span>
+          <span class="domain">Domain: Artificial Intelligence</span>
+        </div>
+      </div>
+      <div class="points">3,890 pts</div>
+    </div>
+
+    <!-- Rank 5 -->
+    <div class="entry">
+      <div class="entry-left">
+        <span class="rank">5</span>
+        <img class="avatar" src="https://randomuser.me/api/portraits/men/84.jpg" alt="">
+        <div class="details">
+          <span>Tesla</span>
+          <span>UI/UX Designer</span>
+          <span class="domain">Domain: Design & User Experience</span>
+        </div>
+      </div>
+      <div class="points">3,720 pts</div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination">
+   <a href="dashboard.html" class="btn-prev">&larr; Prev</a>
+    <span>1 / 3</span>
+   <a href="#" class="btn-prev">&larr; Next</a>
+  </div>
+
+  <script>
+    function toggleDropdown(id) {
+      // Close all dropdowns first
+      document.querySelectorAll('.dropdown').forEach(d => d.style.display = 'none');
+      // Open the clicked one if it was closed
+      const dropdown = document.getElementById('dropdown-' + id);
+      if (dropdown) dropdown.style.display = 'flex';
+    }
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(event) {
+      if (!event.target.closest('.domain-filter')) {
+        document.querySelectorAll('.dropdown').forEach(d => d.style.display = 'none');
+      }
+    });
+  </script>
+</body>
+</html>

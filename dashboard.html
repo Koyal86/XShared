@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom right, #0f172a, #1e293b);
+      color: #111;
+      animation: fadeInBody 0.8s ease-in-out;
+    }
+    @keyframes fadeInBody {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Navbar */
+    nav {
+      background-color:#0d1b2a;
+      padding:15px 40px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      color:white;
+      font-family:sans-serif;
+    }
+    nav a {
+      position: relative;
+      color:white;
+      text-decoration:none;
+      font-weight:500;
+      padding:4px 0;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color:#60a5fa;
+    }
+    /* underline animation */
+    nav a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -3px;
+      width: 0%;
+      height: 2px;
+      background: #3b82f6;
+      transition: width 0.3s ease;
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+    nav a.active {
+      font-weight:700;
+      color:#3b82f6;
+    }
+    nav a.active::after {
+      width: 100%;
+    }
+
+    /* Dashboard content */
+    main.dashboard {
+      max-width: 1100px;
+      margin: 120px auto 40px;
+      padding: 0 60px;
+      box-sizing: border-box;
+      animation: fadeUp 0.9s ease-in-out;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .quick-actions {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .qa-card {
+      flex: 1;
+      padding: 20px;
+      color: #fff;
+      border-radius: 10px;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .qa-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .blue { background: #2563eb; }
+    .purple { background: #9333ea; }
+    .green { background: #16a34a; }
+
+    .info-section {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      flex: 1;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .card h3 {
+      margin-top: 0;
+      font-size: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card ul { list-style: none; padding: 0; margin: 0; }
+    .card ul li {
+      padding: 8px 0;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+    .card a {
+      display: inline-block;
+      margin-top: 10px;
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    .card a:hover {
+      color: #1d4ed8;
+    }
+    .resources ul li {
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 8px;
+    }
+    .blue-bg { background: #eff6ff; }
+    .green-bg { background: #ecfdf5; }
+    .purple-bg { background: #f5f3ff; }
+    .recent a { float: right; font-size: 14px; }
+    .activity {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+      transition: transform 0.3s ease;
+    }
+    .activity:hover {
+      transform: scale(1.02);
+    }
+    .activity img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    .activity p { margin: 4px 0; }
+    .activity .text { color: #555; font-size: 14px; }
+    .stats span {
+      margin-right: 10px;
+      font-size: 12px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+<!-- Top Navbar -->
+<nav>
+  <!-- Logo -->
+  <div style="font-size:20px; font-weight:bold;">
+    <a href="index.html" style="text-decoration:none;">XShare</a>
+  </div>
+
+  <!-- Links + Profile -->
+  <div style="display:flex; gap:30px; align-items:center;">
+    <a href="welcome.html">Home</a>
+    <a href="dashboard.html" class="active">Dashboard</a>
+    <a href="profile.html">Profile</a>
+  </div>
+</nav>
+
+<!-- Dashboard Content -->
+<main class="dashboard">
+  <!-- Quick Actions -->
+  <section class="quick-actions">
+    <div class="qa-card blue" onclick="window.location.href='company.html'" style="cursor:pointer;">
+  ✍️ Share Experience
+</div>
+<div class="qa-card blue" onclick="window.location.href='roadmap.html'" style="cursor:pointer;">
+  🔍 Road Map
+  </div>
+<div class="qa-card blue" onclick="window.location.href='mentor.html'" style="cursor:pointer;">
+  ❓ Mentorship
+  </div>
+  </section>
+
+  <!-- Leaderboard + Resources -->
+  <section class="info-section">
+    <div class="leaderboard card">
+      <h3>Leaderboard <span>🏆</span></h3>
+      <ul>
+        <li><span>1. Alex</span><span>1,250</span></li>
+        <li><span>2. Sarah</span><span>980</span></li>
+        <li><span>3. Mike</span><span>875</span></li>
+      </ul>
+      <a href="#">View All</a>
+    </div>
+    <div class="resources card">
+      <h3>Resources</h3>
+      <ul>
+        <li class="blue-bg">Study Guide<br><small>Mobile Design Patterns</small></li>
+        <li class="green-bg">Tutorial<br><small>UX Best Practices</small></li>
+        <li class="purple-bg">Template<br><small>Wireframe Kit</small></li>
+      </ul>
+      <a href="#">Browse All</a>
+    </div>
+  </section>
+
+  <!-- Recent Activity -->
+<section class="recent card">
+  <div class="recent-header">
+    <h3>Recent Activity</h3>
+  </div>
+
+  <!-- Card 1 -->
+  <div class="activity">
+    <img src="https://via.placeholder.com/40" alt="user">
+    <div>
+      <p><strong>Emma</strong> shared an experience</p>
+      <p class="text">Just completed my first mobile app design project!</p>
+      <div class="stats">
+        <span>❤️ 12</span>
+        <span>💬 3</span>
+        <span>⏱ 2h ago</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 2 -->
+  <div class="activity">
+    <img src="https://via.placeholder.com/40/007bff/ffffff?text=A" alt="user">
+    <div>
+      <p><strong>Alex</strong> answered a question</p>
+      <p class="text">Provided feedback on UI accessibility.</p>
+      <div class="stats">
+        <span>❤️ 8</span>
+        <span>💬 1</span>
+        <span>⏱ 4h ago</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 3 -->
+  <div class="activity">
+  <img src="https://via.placeholder.com/40/28a745/ffffff?text=S" alt="user">
+  <div>
+    <p><strong>Sarah</strong> uploaded a new resource</p>
+    <p class="text">Shared a guide on color theory for designers.</p>
+    <div class="stats">
+      <div class="left-stats">
+        <span>❤️ 15</span>
+        <span>💬 5</span>
+        <span>⏱ 1d ago</span>
+      </div>
+      <a href="#">See All</a>
+    </div>
+  </div>
+</div>
+</section>
+
+<script>
+  // Add active class on click
+  const navLinks = document.querySelectorAll('nav a');
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Career Roadmap</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #ffffff;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Floating Particles */
+    .particles span {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 50%;
+      animation: float 10s linear infinite;
+    }
+    .particles span:nth-child(2) { left: 25%; animation-duration: 12s; }
+    .particles span:nth-child(3) { left: 50%; animation-duration: 15s; }
+    .particles span:nth-child(4) { left: 75%; animation-duration: 18s; }
+    @keyframes float {
+      0% { transform: translateY(100vh) scale(0.6); opacity: 0.4; }
+      50% { opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+    }
+
+    /* Navbar */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(31,31,31,0.7);
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    nav a {
+      text-decoration: none;
+      font-weight: bold;
+      transition: transform 0.3s ease;
+    }
+    nav .logo {
+      font-size: 1.4rem;
+      color: #00d4ff;
+    }
+    nav .logo:hover {
+      transform: scale(1.1) rotate(-1deg);
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 24px;
+    }
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    nav ul li a.active {
+      color: #00d4ff;
+      border-bottom: 2px solid #00d4ff;
+    }
+    nav ul li a:hover {
+      color: #00f0ff;
+    }
+
+    /* Container */
+    .container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 60px 20px;
+    }
+    .card {
+      background: rgba(255,255,255,0.05);
+      padding: 40px;
+      width: 100%;
+      max-width: 700px;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      backdrop-filter: blur(15px);
+      transform: translateY(30px);
+      animation: slideUp 1.2s ease forwards;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .card h2 {
+      text-align: center;
+      font-size: 2rem;
+      color: #fff;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #00d4ff;
+      padding-bottom: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 1rem;
+      color: #cfcfcf;
+    }
+    .form-group select,
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.1);
+      color: #ffffff;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+    .form-group select:focus,
+    .form-group input:focus {
+      border-color: #00d4ff;
+      box-shadow: 0 0 15px rgba(0,212,255,0.6);
+    }
+
+    .btn-submit {
+      border: none;
+      padding: 12px 26px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      background: linear-gradient(135deg,#00d4ff,#0077ff);
+      color: white;
+      transition: transform 0.25s ease, background 0.3s ease;
+      width: 100%;
+      margin-top: 10px;
+    }
+    .btn-submit:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg,#00f0ff,#0099ff);
+    }
+
+    .roadmap {
+      margin-top: 30px;
+      padding: 20px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 12px;
+    }
+    .roadmap h3 {
+      margin-bottom: 15px;
+      color: #00d4ff;
+    }
+    .roadmap ol {
+      margin-left: 20px;
+      line-height: 1.8;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="particles"><span></span><span></span><span></span><span></span></div>
+
+  <!-- Navbar -->
+  <nav>
+    <a class="logo" href="#">XShared</a>
+    <ul>
+      <li><a href="welcome.html">Home</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="career-roadmap.html" class="active">Career Roadmap</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="card">
+      <h2>AI-Powered Career Roadmap</h2>
+
+      <!-- Role Input -->
+      <div class="form-group">
+        <label>Select Your Target Role</label>
+        <select>
+          <option>Data Scientist</option>
+          <option>Software Engineer</option>
+          <option>Product Manager</option>
+          <option>UI/UX Designer</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Upload Resume (optional)</label>
+        <input type="file">
+      </div>
+
+      <button class="btn-submit" onclick="showRoadmap()">Generate Roadmap</button>
+
+      <!-- Output Section -->
+      <div class="roadmap" id="roadmap" style="display:none;">
+        <h3>Your Roadmap to Data Scientist</h3>
+        <ol>
+          <li>Learn Python & Statistics → Start with "Intro to Data Science" course</li>
+          <li>Build 2 projects → Predictive Model (Kaggle), Data Dashboard (Tableau)</li>
+          <li>Do an internship → Target companies with Analytics Intern roles</li>
+          <li>Prepare for interviews → Practice SQL, ML concepts, and case studies</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showRoadmap() {
+      document.getElementById('roadmap').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
