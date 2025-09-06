@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interview Questions & Tips</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;   
+      --secondary: #3b82f6; 
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --glass-blur: 15px;
+      --text-color: #111827;
+      --footer-bg: rgba(255, 255, 255, 0.9);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #3b82f6, #60a5fa, #93c5fd);
+      background-size: 200% 200%;
+      animation: bgMove 18s ease infinite;
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @keyframes bgMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: var(--card-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand i {
+      font-size: 20px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .brand h2 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .back-btn {
+      padding: 8px 14px;
+      border-radius: 0.6rem;
+      background: linear-gradient(135deg, var(--secondary), var(--primary));
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: 0.25s ease;
+    }
+    .back-btn:hover {
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      text-align: center;
+      margin: 30px 0;
+      font-size: 28px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .content {
+      max-width: 900px;
+      margin: auto;
+      padding: 0 20px 40px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      border-radius: 1rem;
+      padding: 20px;
+      border: 1px solid rgba(0,0,0,0.05);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin-bottom: 20px;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.15);
+    }
+    .card h3 {
+      margin: 0 0 12px;
+      font-size: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .card ul {
+      padding-left: 18px;
+      margin: 0;
+    }
+    .card ul li {
+      margin: 6px 0;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: var(--footer-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      border-top: 1px solid rgba(0,0,0,0.05);
+      font-size: 14px;
+      color: var(--text-color);
+    }
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="brand">
+      <i class="fas fa-rocket"></i>
+      <h2>XShare</h2>
+    </div>
+    <a href="experience.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+  </div>
+
+  <h1>Interview Questions & Tips</h1>
+
+  <div class="content" id="content"></div>
+
+  <footer>
+    © 2025 XShare. Built with ❤️ for learners. | <a href="#">Privacy Policy</a>
+  </footer>
+
+  <script>
+    const topics = {
+      fullstack: { title: "Full Stack Development", tips: ["Explain difference between SQL and NoSQL databases.", "What are React hooks and why are they used?", "How do you handle authentication in a MERN app?"] },
+      datascience: { title: "Data Science Internship", tips: ["Explain difference between supervised and unsupervised learning.", "How do you handle missing values in datasets?", "What is overfitting and how to prevent it?"] },
+      cloud: { title: "Cloud Computing Workshop", tips: ["Explain difference between IaaS, PaaS, and SaaS.", "What are key benefits of AWS over traditional hosting?", "How does auto-scaling work in cloud platforms?"] },
+      cybersecurity: { title: "Cybersecurity Training", tips: ["What is the difference between symmetric and asymmetric encryption?", "How would you prevent SQL injection?", "What are OWASP Top 10 vulnerabilities?"] },
+      uiux: { title: "UI/UX Design Project", tips: ["What are the principles of good UX design?", "How do you ensure accessibility in your designs?", "What tools do you use for wireframing?"] },
+      marketing: { title: "Digital Marketing Internship", tips: ["Difference between SEO and SEM?", "How do you track performance of ad campaigns?", "What are common KPIs in digital marketing?"] },
+      communication: { title: "Business Communication Skills", tips: ["How do you handle conflicts in a team?", "What are the key elements of an effective presentation?", "How to improve active listening skills?"] },
+      ai: { title: "Artificial Intelligence Project", tips: ["Difference between AI, ML, and DL?", "What are common applications of NLP?", "How do you evaluate performance of AI models?"] },
+      logical: { title: "Logical Reasoning Questions", tips: ["If A is taller than B, and B is taller than C, who is tallest?", "Find the missing number in the series: 2, 6, 12, 20, ?", "If ALL = 25, THEN = 52, find value of CHAT."] },
+      aptitude: { title: "Aptitude Questions", tips: ["If the cost price of 15 pens is equal to selling price of 12 pens, find profit percentage.", "Train A crosses a pole in 15s and Train B crosses in 20s, find ratio of their speeds.", "If simple interest on ₹5000 for 2 years is ₹800, what is the rate of interest?"] },
+      general: { title: "General Job Questions", tips: ["Tell me about yourself.", "What are your strengths and weaknesses?", "Where do you see yourself in 5 years?", "Why should we hire you?"] }
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const topic = urlParams.get("topic");
+    const container = document.getElementById("content");
+
+    if(topic && topics[topic]){
+      const data = topics[topic];
+      container.innerHTML = `<div class="card"><h3>${data.title}</h3><ul>${data.tips.map(tip => `<li>${tip}</li>`).join("")}</ul></div>`;
+    } else {
+      container.innerHTML = `<div class="card"><h3>No data available for this topic.</h3></div>`;
+    }
+  </script>
+
+</body>
+</html>

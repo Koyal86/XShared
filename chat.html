@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Chat</title>
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+    body { min-height:100vh; background: linear-gradient(135deg,#f7f9ff,#eef8ff); display:flex; flex-direction:column; }
+
+    /* Topbar */
+    .topbar { 
+      display:flex; align-items:center; gap:12px; padding:14px 18px; 
+      background:#fff; box-shadow:0 4px 20px rgba(0,0,0,.05); 
+      position:sticky; top:0; z-index:10;
+      border-bottom-left-radius:12px; border-bottom-right-radius:12px;
+    }
+    .back { text-decoration:none; color:#4a4aef; font-weight:700; padding:8px 12px; border-radius:8px; border:1px solid rgba(74,74,239,.12); background:rgba(74,74,239,.03); }
+    .person { display:flex; align-items:center; gap:12px; margin-left:8px; }
+    .person img { width:52px; height:52px; border-radius:50%; border:3px solid #4a4aef; box-shadow:0 4px 12px rgba(0,0,0,.1); object-fit:cover; }
+    .person .meta { display:flex; flex-direction:column; }
+    .person .meta .name { font-weight:800; color:#111; }
+    .person .meta .sub { font-size:13px; color:#666; margin-top:2px; }
+
+    /* Chat wrapper */
+    .chat-wrap { flex:1; display:flex; flex-direction:column; max-width:900px; width:100%; margin:18px auto; background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 10px 30px rgba(20,30,60,.06); }
+
+    .chat-body { flex:1; padding:18px; overflow:auto; display:flex; flex-direction:column; gap:12px; background:linear-gradient(180deg,#fff,#f3f8ff); scroll-behavior:smooth; }
+
+    /* Message bubbles */
+    .msg { max-width:70%; padding:12px 16px; border-radius:16px; line-height:1.4; animation:fadeIn 0.3s ease forwards; }
+    .msg.user { align-self:flex-end; background: linear-gradient(135deg,#4a4aef,#6b63ff); color:#fff; border-bottom-right-radius:6px; box-shadow:0 6px 15px rgba(74,74,239,.3); }
+    .msg.their { align-self:flex-start; background:#fff; color:#111; border-bottom-left-radius:6px; display:flex; gap:10px; align-items:flex-end; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+    .their .avatar-sm { width:36px; height:36px; border-radius:50%; object-fit:cover; border:2px solid #fff; box-shadow:0 4px 8px rgba(0,0,0,.06); }
+
+    @keyframes fadeIn { 0% { opacity:0; transform:translateY(10px); } 100% { opacity:1; transform:translateY(0); } }
+
+    /* Chat input */
+    .chat-input { display:flex; gap:12px; padding:12px; border-top:1px solid #eef2ff; background:#fff; }
+    .chat-input input { flex:1; padding:12px 16px; border-radius:999px; border:1px solid #e6eefc; outline:none; transition:all .2s; }
+    .chat-input input:focus { border-color:#4a4aef; box-shadow:0 4px 12px rgba(74,74,239,.2); }
+    .chat-input button { background:#4a4aef; border:none; color:#fff; padding:10px 16px; border-radius:50px; font-weight:700; cursor:pointer; box-shadow:0 4px 12px rgba(74,74,239,.3); transition:all .2s; }
+    .chat-input button:hover { background:#6b63ff; transform:translateY(-1px); }
+
+    /* Scrollbar */
+    .chat-body::-webkit-scrollbar { width:6px; }
+    .chat-body::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:3px; }
+
+    /* Small screens */
+    @media (max-width:600px) {
+      .person img { width:44px; height:44px; }
+      .chat-wrap { margin:12px; border-radius:12px; }
+      .msg { max-width:85%; }
+    }
+
+    /* Footer */
+    footer { text-align:center; padding:12px 0; color:#888; font-size:13px; margin-top:8px; }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <a class="back" href="mentor.html">&larr; Back</a>
+    <a id="personHeaderLink" href="#" style="text-decoration:none; color:inherit;">
+      <div class="person" id="personHeader"></div>
+    </a>
+  </div>
+
+  <main class="chat-wrap" role="main" aria-live="polite">
+    <div class="chat-body" id="messages"></div>
+
+    <div class="chat-input">
+      <input id="messageInput" type="text" placeholder="Write a message..." aria-label="Message input">
+      <button id="sendBtn">&#9993;</button>
+    </div>
+  </main>
+
+  <footer>© 2025 ChatApp. All rights reserved.</footer>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const company = params.get('company') || 'Unknown';
+    const name = params.get('name') || 'Mentor';
+    const title = params.get('title') || '';
+    const avatar = params.get('avatar') || 'https://dummyimage.com/100x100/ddd/aaa.png';
+    const domain = params.get('domain') || '';
+    const points = params.get('points') || '';
+
+    // populate header
+    const header = document.getElementById('personHeader');
+    header.innerHTML = `
+      <img src="${decodeURIComponent(avatar)}" alt="${name}">
+      <div class="meta">
+        <div class="name">${decodeURIComponent(name)} <span style="font-weight:600;color:#4a4aef;font-size:13px;margin-left:6px">· ${company}</span></div>
+        <div class="sub">${decodeURIComponent(title)} • ${decodeURIComponent(domain)} • ${points} pts</div>
+      </div>
+    `;
+
+    // profile link
+    const profileUrl = `linprofile.html?company=${company}&name=${name}&title=${title}&avatar=${avatar}&domain=${domain}&points=${points}`;
+    document.getElementById('personHeaderLink').href = profileUrl;
+
+    const messages = document.getElementById('messages');
+    const input = document.getElementById('messageInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    function addTheir(text) {
+      const el = document.createElement('div');
+      el.className = 'msg their';
+      el.innerHTML = `<img class="avatar-sm" src="${decodeURIComponent(avatar)}" alt="${name}"><div>${text}</div>`;
+      messages.appendChild(el);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function addUser(text) {
+      const el = document.createElement('div');
+      el.className = 'msg user';
+      el.textContent = text;
+      messages.appendChild(el);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function autoReply(userText) {
+      const replies = [
+        "Thanks for reaching out! Can you share more details?",
+        "Great — I can help with that. Do you prefer a quick call or messages?",
+        "I usually respond within a few hours. Meanwhile, please share your current progress.",
+        "Happy to help! Which part do you want to focus on first?"
+      ];
+      const reply = replies[Math.floor(Math.random() * replies.length)];
+      setTimeout(() => addTheir(reply), 800 + Math.random()*900);
+    }
+
+    // initial message
+    addTheir(`Hi, I'm ${decodeURIComponent(name)} from ${company}. How can I help you today?`);
+
+    function sendMessage() {
+      const text = input.value.trim();
+      if (!text) return;
+      addUser(text);
+      input.value = '';
+      setTimeout(()=> autoReply(text), 250);
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    input.addEventListener('keydown', (e) => { if(e.key==='Enter') sendMessage(); });
+    window.addEventListener('load', () => input.focus());
+  </script>
+</body>
+</html>
