@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XShare - Course Catalog</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Global Styles and Color Variables */
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --secondary: #06b6d4;
+            --accent: #f43f5e;
+            --bg-dark: #0f172a;
+            --bg-medium: #1e293b;
+            --bg-light: #334155;
+            --text-light: #010a13;
+            --text-muted: #cbd5e1;
+            --card-bg: #ffffff;
+            --card-border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-dark), var(--bg-medium));
+            color: var(--text-light);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--primary-light);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: rgb(69, 20, 214);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-light);
+            border: 1px solid var(--text-muted);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary-light);
+        }
+
+        /* Card Components */
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+            color: var(--bg-dark);
+            margin-bottom: 25px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        /* Search Bar */
+        .search-container {
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding-left: 50px;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        /* Filter Section */
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.filter-btn {
+    padding: 8px 18px;
+    border-radius: 25px;
+    border: 1px solid var(--text-muted);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-light);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    background: var(--primary-light);
+    border-color: var(--primary-light);
+    color: #6138e8;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(37, 99, 235, 0.3);
+}
+
+.filter-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #4b1be7;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+        /* Course Grid */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .course-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .course-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .course-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .course-content {
+            padding: 20px;
+        }
+
+        .course-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--bg-dark);
+        }
+
+        .course-instructor {
+            color: var(--bg-light);
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: var(--bg-light);
+        }
+
+        .course-stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .course-description {
+            color: var(--bg-light);
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .course-price {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: var(--bg-light);
+            font-size: 16px;
+            margin-left: 10px;
+        }
+
+        .course-action {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-dark);
+            padding: 30px;
+            text-align: center;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-light);
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-section {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+    XShare
+</nav>
+
+    <div class="container">
+        <!-- Header -->
+      <div class="card">
+      <div class="card-body">
+        <h1 style="font-size: 28px; margin-bottom: 10px; color: var(--primary-dark);">Course Catalog</h1>
+        <p style="color: var(--bg-light);">Browse our selection of industry-relevant courses to boost your career</p>
+      </div>
+    </div>
+        <!-- Search and Filters -->
+        <!-- Search + Filters -->
+    <div class="card">
+      <div class="card-body">
+        <div class="search-container">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" id="search" class="search-bar" placeholder="Search for courses, instructors, or topics...">
+        </div>
+
+        <!-- Filters -->
+        <div class="filters">
+          <select id="filter-time">
+            <option value="">Time</option>
+            <option value="45">45h</option>
+            <option value="50">50h</option>
+            <option value="55">55h</option>
+            <option value="60">60h</option>
+            <option value="70">70h</option>
+            <option value="80">80h</option>
+          </select>
+
+          <select id="filter-level">
+            <option value="">Level</option>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+          </select>
+
+          <select id="filter-domain">
+            <option value="">Domain</option>
+            <option value="webdev">Web Development</option>
+            <option value="datascience">Data Science</option>
+            <option value="marketing">Marketing</option>
+            <option value="business">Business</option>
+            <option value="design">Design</option>
+            <option value="cloud">Cloud</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    
+
+        <!-- Course Grid -->
+        <div class="course-grid" id="courseGrid">
+            <!-- Course 1 -->
+            <div class="course-card" data-domains="web" data-level="intermediate" data-time="60" data-rating="4.8">
+                <div class="course-image" style="background-image: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+                    <div class="course-badge">BESTSELLER</div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">Full-Stack Web Development</h3>
+                    <div class="course-instructor"><i class="fas fa-user"></i> By Alex Johnson</div>
+                    <div class="course-stats">
+                        <div class="course-stat"><i class="far fa-clock"></i> 60 hours</div>
+                        <div class="course-stat"><i class="fas fa-signal"></i> Intermediate</div>
+                        <div class="course-stat"><i class="fas fa-star"></i> 4.8 (320)</div>
+                    </div>
+                    <p class="course-description">Master HTML, CSS, JavaScript, React, Node.js, and more. Build real-world projects and create a portfolio.</p>
+                    <div class="course-price">$89.99 <span class="original-price">$129.99</span></div>
+                    <div class="course-action">
+                        <a href="#" class="btn btn-primary">Enroll Now</a>
+                        <a href="askquestion.html?topic=webdev" class="btn btn-outline" style="color: var(--bg-dark);">Ask Questions</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 2 -->
+            <div class="course-card" data-domains="data ai" data-level="advanced" data-time="80" data-rating="4.9">
+                <div class="course-image" style="background-image: url('https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+                    <div class="course-badge">POPULAR</div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">Data Science & Machine Learning</h3>
+                    <div class="course-instructor"><i class="fas fa-user"></i> By Sarah Williams</div>
+                    <div class="course-stats">
+                        <div class="course-stat"><i class="far fa-clock"></i> 80 hours</div>
+                        <div class="course-stat"><i class="fas fa-signal"></i> Advanced</div>
+                        <div class="course-stat"><i class="fas fa-star"></i> 4.9 (450)</div>
+                    </div>
+                    <p class="course-description">Learn Python, Pandas, NumPy, Matplotlib, Scikit-learn, TensorFlow, and more for data analysis and ML.</p>
+                    <div class="course-price">$99.99 <span class="original-price">$149.99</span></div>
+                    <div class="course-action">
+                        <a href="#" class="btn btn-primary">Enroll Now</a>
+                        <a href="askquestion.html?topic=datascience" class="btn btn-outline" style="color: var(--bg-dark);">Ask Questions</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 3 -->
+            <div class="course-card" data-domains="marketing" data-level="beginner" data-time="45" data-rating="4.7">
+                <div class="course-image" style="background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwa90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1115&q=80');">
+                    <div class="course-badge">NEW</div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">Digital Marketing Mastery</h3>
+                    <div class="course-instructor"><i class="fas fa-user"></i> By Michael Chen</div>
+                    <div class="course-stats">
+                        <div class="course-stat"><i class="far fa-clock"></i> 45 hours</div>
+                        <div class="course-stat"><i class="fas fa-signal"></i> Beginner</div>
+                        <div class="course-stat"><i class="fas fa-star"></i> 4.7 (280)</div>
+                    </div>
+                    <p class="course-description">Master SEO, SEM, social media marketing, email campaigns, and analytics to drive business growth.</p>
+                    <div class="course-price">$79.99 <span class="original-price">$119.99</span></div>
+                    <div class="course-action">
+                        <a href="#" class="btn btn-primary">Enroll Now</a>
+                        <a href="askquestion.html?topic=marketing" class="btn btn-outline" style="color: var(--bg-dark);">Ask Questions</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 4 -->
+            <div class="course-card" data-domains="business" data-level="intermediate" data-time="50" data-rating="4.6">
+                <div class="course-image" style="background-image: url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+                    <div class="course-badge">TRENDING</div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">Business Analytics Fundamentals</h3>
+                    <div class="course-instructor"><i class="fas fa-user"></i> By Emily Rodriguez</div>
+                    <div class="course-stats">
+                        <div class="course-stat"><i class="far fa-clock"></i> 50 hours</div>
+                        <div class="course-stat"><i class="fas fa-signal"></i> Intermediate</div>
+                        <div class="course-stat"><i class="fas fa-star"></i> 4.6 (210)</div>
+                    </div>
+                    <p class="course-description">Learn to analyze business data, create dashboards, and make data-driven decisions for business growth.</p>
+                    <div class="course-price">$84.99 <span class="original-price">$124.99</span></div>
+                    <div class="course-action">
+                        <a href="#" class="btn btn-primary">Enroll Now</a>
+                        <a href="askquestion.html?topic=business" class="btn btn-outline" style="color: var(--bg-dark);">Ask Questions</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 5 -->
+            <div class="course-card" data-domains="design" data-level="beginner" data-time="55" data-rating="4.8">
+                <div class="course-image" style="background-image: url('https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80');">
+                    <div class="course-badge">FEATURED</div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">UI/UX Design Principles</h3>
+                    <div class="course-instructor"><i class="fas fa-user"></i> By David Kim</div>
+                    <div class="course-stats">
+                        <div class="course-stat"><i class="far fa-clock"></i> 55 hours</div>
+                        <div class="course-stat"><i class="fas fa-signal"></i> Beginner</div>
+                        <div class="course-stat"><i class="fas fa-star"></i> 4.8 (340)</div>
+                    </div>
+                    <p class="course-description">Master user-centered design principles, wireframing, prototyping, and usability testing techniques.</p>
+                    <div class="course-price">$89.99 <span class="original-price">$139.99</span></div>
+                    <div class="course-action">
+                        <a href="#" class="btn btn-primary">Enroll Now</a>
+                        <a href="askquestion.html?topic=design" class="btn btn-outline" style="color: var(--bg-dark);">Ask Questions</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 6 -->
+            <div class="course-card" data-domains="cloud" data-level="advanced" data-time="70" data-rating="4.9">
+                <div class="course-image" style="background-image: url('https://images.unsplash.com/photo-1607799279861-4dd421887fb3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+                    <div class="course-badge">DISCOUNT</div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">Cloud Computing with AWS</h3>
+                    <div class="course-instructor"><i class="fas fa-user"></i> By Jessica Taylor</div>
+                    <div class="course-stats">
+                        <div class="course-stat"><i class="far fa-clock"></i> 70 hours</div>
+                        <div class="course-stat"><i class="fas fa-signal"></i> Advanced</div>
+                        <div class="course-stat"><i class="fas fa-star"></i> 4.9 (420)</div>
+                    </div>
+                    <p class="course-description">Learn to deploy, manage, and scale applications using Amazon Web Services (AWS) cloud platform.</p>
+                    <div class="course-price">$94.99 <span class="original-price">$159.99</span></div>
+                    <div class="course-action">
+                        <a href="#" class="btn btn-primary">Enroll Now</a>
+                        <a href="askquestion.html?topic=cloud" class="btn btn-outline" style="color: var(--bg-dark);">Ask Questions</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 7 -->
+            <div class="course-card" data-domains="programming" data-level="beginner" data-time="40" data-rating="4.5">
+                <div class="course-image" style="background-image: url('https://images.unsplash.com/photo-1526379879527-8559ecfcaec0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+                    <div class="course-badge">BEGINNER</div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">Python Programming Fundamentals</h3>
+                    <div class="course-instructor"><i class="fas fa-user"></i> By Robert Wilson</div>
+                    <div class="course-stats">
+                        <div class="course-stat"><i class="far fa-clock"></i> 40 hours</div>
+                        <div class="course-stat"><i class="fas fa-signal"></i> Beginner</div>
+                        <div class="course-stat"><i class="fas fa-star"></i> 4.5 (190)</div>
+                    </div>
+                    <p class="course-description">Learn Python from scratch. Master syntax, data structures, functions, and build your first applications.</p>
+                    <div class="course-price">$74.99 <span class="original-price">$99.99</span></div>
+                    <div class="course-action">
+                        <a href="#" class="btn btn-primary">Enroll Now</a>
+                        <a href="askquestion.html?topic=python" class="btn btn-outline" style="color: var(--bg-dark);">Ask Questions</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 8 -->
+            <div class="course-card" data-domains="ai" data-level="advanced" data-time="90" data-rating="4.9">
+                <div class="course-image" style="background-image: url('https://images.unsplash.com/photo-1677442135135-416f8aa26a5b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80');">
+                    <div class="course-badge">ADVANCED</div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">Advanced AI & Deep Learning</h3>
+                    <div class="course-instructor"><i class="fas fa-user"></i> By Sophia Martinez</div>
+                    <div class="course-stats">
+                        <div class="course-stat"><i class="far fa-clock"></i> 90 hours</div>
+                        <div class="course-stat"><i class="fas fa-signal"></i> Advanced</div>
+                        <div class="course-stat"><i class="fas fa-star"></i> 4.9 (380)</div>
+                    </div>
+                    <p class="course-description">Dive deep into neural networks, NLP, computer vision, and reinforcement learning with TensorFlow and PyTorch.</p>
+                    <div class="course-price">$119.99 <span class="original-price">$179.99</span></div>
+                    <div class="course-action">
+                        <a href="#" class="btn btn-primary">Enroll Now</a>
+                        <a href="askquestion.html?topic=ai" class="btn btn-outline" style="color: var(--bg-dark);">Ask Questions</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Help Center</a>
+        </div>
+        <div class="copyright">
+            © 2023 XShare. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const courseGrid = document.getElementById('courseGrid');
+            const courseCards = courseGrid.querySelectorAll('.course-card');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            // Search functionality
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                courseCards.forEach(card => {
+                    const title = card.querySelector('.course-title').textContent.toLowerCase();
+                    const description = card.querySelector('.course-description').textContent.toLowerCase();
+                    const instructor = card.querySelector('.course-instructor').textContent.toLowerCase();
+                    
+                    if (title.includes(searchTerm) || description.includes(searchTerm) || instructor.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Filter functionality
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    
+                    courseCards.forEach(card => {
+                        if (filter === 'all') {
+                            card.style.display = 'block';
+                            return;
+                        }
+                        
+                        let showCard = false;
+                        
+                        // Domain filters
+                        if (['web', 'data', 'ai', 'design', 'cloud', 'marketing', 'business', 'programming'].includes(filter)) {
+                            const cardDomains = card.getAttribute('data-domains');
+                            showCard = cardDomains.includes(filter);
+                        }
+                        // Level filters
+                        else if (['beginner', 'intermediate', 'advanced'].includes(filter)) {
+                            const cardLevel = card.getAttribute('data-level');
+                            showCard = cardLevel === filter;
+                        }
+                        // Time filters
+                        else if (['short', 'medium', 'long'].includes(filter)) {
+                            const cardTime = parseInt(card.getAttribute('data-time'));
+                            
+                            if (filter === 'short') {
+                                showCard = cardTime < 30;
+                            } else if (filter === 'medium') {
+                                showCard = cardTime >= 30 && cardTime <= 60;
+                            } else if (filter === 'long') {
+                                showCard = cardTime > 60;
+                            }
+                        }
+                        
+                        card.style.display = showCard ? 'block' : 'none';
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
