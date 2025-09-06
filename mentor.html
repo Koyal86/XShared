@@ -1,196 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Company Leaderboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    body {
-      background: #f4f6fc;
-      color: #333;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 50px 20px;
+    :root {
+      --primary: #4f46e5;   /* Indigo */
+      --secondary: #9333ea; /* Purple */
+      --accent: #ef4444;    /* Red */
+      --light: #f8f9fa;
+      --dark: #1f2937;
+      --gray: #6b7280;
+      --light-gray: #e5e7eb;
     }
 
-    h2 {
-      font-size: 32px;
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 20px;
-      color: #222;
-    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+    body { background: var(--light); color: var(--dark); min-height:100vh; display:flex; flex-direction:column; align-items:center; }
 
-    /* Domain Filter Section */
-    .domain-filter {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 30px;
-      position: relative;
-    }
-    .domain-filter button {
-      background: #fff;
-      border: 2px solid #4a4aef;
-      color: #4a4aef;
-      padding: 10px 18px;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    .domain-filter button:hover,
-    .domain-filter button.active {
-      background: #4a4aef;
-      color: #fff;
-    }
-
-    /* Dropdown Queue */
-    .dropdown {
-      display: none;
-      flex-direction: column;
-      position: absolute;
-      top: 60px;
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      overflow: hidden;
-      min-width: 220px;
-      z-index: 100;
-    }
-    .dropdown button {
-      border: none;
-      background: #fff;
-      padding: 10px 15px;
-      text-align: left;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background 0.3s;
-    }
-    .dropdown button:hover {
-      background: #f0f0ff;
-    }
-
-    /* Leaderboard Container */
-    .leaderboard {
+    header {
       width: 100%;
-      max-width: 900px;
-      background: #fff;
-      border-radius: 14px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      overflow: hidden;
-    }
-
-    /* Entry Row */
-    .entry {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 28px;
-      transition: background 0.3s;
-      border-bottom: 1px solid #eee;
-    }
-    .entry:last-child {
-      border-bottom: none;
-    }
-    .entry:hover {
-      background: #f9f9ff;
-    }
-
-    /* Rank + Avatar + Details */
-    .entry-left {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-    .rank {
-      font-weight: bold;
-      font-size: 20px;
-      width: 30px;
-      text-align: center;
-    }
-    .avatar {
-      width: 55px;
-      height: 55px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid #ddd;
-    }
-    .details {
-      display: flex;
-      flex-direction: column;
-    }
-    .details span:first-child {
-      font-weight: 600;
-      font-size: 16px;
-      color: #111;
-    }
-    .details span:nth-child(2) {
-      font-size: 14px;
-      color: #666;
-    }
-    .details span.domain {
-      font-size: 13px;
-      color: #4a4aef;
-      font-weight: 500;
-    }
-
-    /* Points */
-    .points {
-      font-weight: 700;
-      color: #4a4aef;
-      font-size: 16px;
-    }
-
-    /* Highlight top 3 */
-    .highlight-1 {
-      background: linear-gradient(90deg, #fff7cc, #fff);
-    }
-    .highlight-2 {
-      background: linear-gradient(90deg, #d2e274, #fff);
-    }
-    .highlight-3 {
-      background: linear-gradient(90deg, #f8c788, #fff);
-    }
-    /* Pagination */
-    .pagination {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      padding: 15px 0;
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-top: 25px;
-      gap: 20px;
-      font-size: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-    .pagination button {
-      border: none;
-      background: #4a4aef;
+
+    header .logo {
+      font-size: 28px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    header .logo i { color: #ff6b6b; }
+
+    h2 { font-size:32px; font-weight:700; text-align:center; margin:20px 0; color: var(--primary); }
+
+    .domain-filter { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-bottom:30px; position:relative;}
+    .domain-filter button { background:#fff; border:2px solid var(--primary); color: var(--primary); padding:10px 18px; border-radius:8px; font-weight:600; cursor:pointer; transition:all .3s;}
+    .domain-filter button:hover, .domain-filter button.active { background: var(--primary); color:#fff; }
+
+    .dropdown { display:none; flex-direction:column; position:absolute; top:60px; background:#fff; border:1px solid var(--light-gray); border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,.1); overflow:hidden; min-width:220px; z-index:100;}
+    .dropdown button { border:none; background:#fff; padding:10px 15px; text-align:left; cursor:pointer; font-size:14px; transition:background .3s;}
+    .dropdown button:hover { background: #f3f3ff; }
+
+    .leaderboard { width:100%; max-width:900px; border-radius:14px; overflow:hidden; 
+                   background: linear-gradient(135deg,#fff,#f3f3ff); box-shadow:0 4px 20px rgba(0,0,0,.08); }
+
+    .entry-link { text-decoration:none; color:inherit; display:block; }
+
+    .entry {
+      display:flex; align-items:center; justify-content:space-between; padding:18px 28px; transition:background .3s; border-bottom:1px solid var(--light-gray);
+    }
+    .entry:last-child { border-bottom:none; }
+    .entry:hover { background:#e9e7ff; }
+
+    .entry-left { display:flex; align-items:center; gap:18px; }
+    .rank { font-weight:bold; font-size:20px; width:30px; text-align:center; }
+    .avatar { width:55px; height:55px; border-radius:50%; object-fit:cover; border:3px solid #ddd; }
+    .details { display:flex; flex-direction:column; }
+    .details span.company { font-weight:700; font-size:16px; color: var(--dark); }
+    .details span.user { font-size:14px; color: var(--dark); }
+    .details span.domain { font-size:13px; color: var(--primary); font-weight:500; }
+
+    .points { font-weight:700; color: var(--primary); font-size:16px; }
+
+    .highlight-1 { background: linear-gradient(90deg,#fff7cc,#fff); }
+    .highlight-2 { background: linear-gradient(90deg,#d2e274,#fff); }
+    .highlight-3 { background: linear-gradient(90deg,#f8c788,#fff); }
+
+    .pagination { display:flex; justify-content:center; align-items:center; margin:25px 0; gap:20px; font-size:15px; }
+    .pagination a { text-decoration:none; color: var(--primary); font-weight:600; }
+
+    footer {
+      background: var(--dark);
       color: #fff;
-      padding: 10px 18px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background 0.3s;
+      text-align:center;
+      padding:15px;
+      margin-top:40px;
+      width:100%;
     }
-    .pagination button:hover {
-      background: #3333cc;
-    }
-    .pagination span {
-      font-weight: 600;
-      color: #444;
+
+    @media (max-width:600px) {
+      .entry { padding:14px; }
+      .avatar { width:46px; height:46px; }
+      h2 { font-size:22px; }
     }
   </style>
 </head>
 <body>
+
+  <header>
+    <div class="logo">
+      <i class="fas fa-rocket"></i> XShared
+    </div>
+  </header>
 
   <h2>Top Positions in Companies</h2>
 
@@ -202,28 +112,24 @@
       <button>Top 5 Companies</button>
       <button>Highest Rated Mentors</button>
     </div>
-
     <button onclick="toggleDropdown('dev')">Software Development</button>
     <div id="dropdown-dev" class="dropdown">
       <button>Frontend Developer</button>
       <button>Backend Developer</button>
       <button>Full Stack Developer</button>
     </div>
-
     <button onclick="toggleDropdown('ml')">AI & ML</button>
     <div id="dropdown-ml" class="dropdown">
       <button>ML Engineer</button>
       <button>AI Researcher</button>
       <button>Data Scientist</button>
     </div>
-
     <button onclick="toggleDropdown('pm')">Product Management</button>
     <div id="dropdown-pm" class="dropdown">
       <button>Associate PM</button>
       <button>Product Manager</button>
       <button>Senior PM</button>
     </div>
-
     <button onclick="toggleDropdown('design')">Design</button>
     <div id="dropdown-design" class="dropdown">
       <button>UI Designer</button>
@@ -233,98 +139,111 @@
   </div>
 
   <div class="leaderboard">
+
     <!-- Rank 1 -->
-    <div class="entry highlight-1">
-      <div class="entry-left">
-        <span class="rank">1</span>
-        <img class="avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="">
-        <div class="details">
-          <span>Google</span>
-          <span>Software Engineer</span>
-          <span class="domain">Domain: Software Development</span>
+    <a class="entry-link" href="chat.html?company=Google&name=John%20Carter&title=Software%20Engineer&avatar=https%3A%2F%2Frandomuser.me%2Fapi%2Fportraits%2Fmen%2F32.jpg&domain=Software%20Development&points=5240">
+      <div class="entry highlight-1">
+        <div class="entry-left">
+          <span class="rank">1</span>
+          <img class="avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="">
+          <div class="details">
+            <span class="company">Google</span>
+            <span class="user"><strong>John Carter</strong> – Software Engineer</span>
+            <span class="domain">Domain: Software Development</span>
+          </div>
         </div>
+        <div class="points">5,240 pts</div>
       </div>
-      <div class="points">5,240 pts</div>
-    </div>
+    </a>
 
     <!-- Rank 2 -->
-    <div class="entry highlight-2">
-      <div class="entry-left">
-        <span class="rank">2</span>
-        <img class="avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="">
-        <div class="details">
-          <span>Amazon</span>
-          <span>Data Scientist</span>
-          <span class="domain">Domain: AI & Analytics</span>
+    <a class="entry-link" href="chat.html?company=Amazon&name=Emily%20Davis&title=Data%20Scientist&avatar=https%3A%2F%2Frandomuser.me%2Fapi%2Fportraits%2Fwomen%2F44.jpg&domain=AI%20%26%20Analytics&points=4890">
+      <div class="entry highlight-2">
+        <div class="entry-left">
+          <span class="rank">2</span>
+          <img class="avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="">
+          <div class="details">
+            <span class="company">Amazon</span>
+            <span class="user"><strong>Emily Davis</strong> – Data Scientist</span>
+            <span class="domain">Domain: AI & Analytics</span>
+          </div>
         </div>
+        <div class="points">4,890 pts</div>
       </div>
-      <div class="points">4,890 pts</div>
-    </div>
+    </a>
 
     <!-- Rank 3 -->
-    <div class="entry highlight-3">
-      <div class="entry-left">
-        <span class="rank">3</span>
-        <img class="avatar" src="https://randomuser.me/api/portraits/men/21.jpg" alt="">
-        <div class="details">
-          <span>Microsoft</span>
-          <span>Product Manager</span>
-          <span class="domain">Domain: Product Strategy</span>
+    <a class="entry-link" href="chat.html?company=Microsoft&name=Michael%20Johnson&title=Product%20Manager&avatar=https%3A%2F%2Frandomuser.me%2Fapi%2Fportraits%2Fmen%2F21.jpg&domain=Product%20Strategy&points=4650">
+      <div class="entry highlight-3">
+        <div class="entry-left">
+          <span class="rank">3</span>
+          <img class="avatar" src="https://randomuser.me/api/portraits/men/21.jpg" alt="">
+          <div class="details">
+            <span class="company">Microsoft</span>
+            <span class="user"><strong>Michael Johnson</strong> – Product Manager</span>
+            <span class="domain">Domain: Product Strategy</span>
+          </div>
         </div>
+        <div class="points">4,650 pts</div>
       </div>
-      <div class="points">4,650 pts</div>
-    </div>
+    </a>
 
     <!-- Rank 4 -->
-    <div class="entry">
-      <div class="entry-left">
-        <span class="rank">4</span>
-        <img class="avatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="">
-        <div class="details">
-          <span>Meta</span>
-          <span>ML Engineer</span>
-          <span class="domain">Domain: Artificial Intelligence</span>
+    <a class="entry-link" href="chat.html?company=Meta&name=Sophia%20Martinez&title=ML%20Engineer&avatar=https%3A%2F%2Frandomuser.me%2Fapi%2Fportraits%2Fwomen%2F68.jpg&domain=Artificial%20Intelligence&points=3890">
+      <div class="entry">
+        <div class="entry-left">
+          <span class="rank">4</span>
+          <img class="avatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="">
+          <div class="details">
+            <span class="company">Meta</span>
+            <span class="user"><strong>Sophia Martinez</strong> – ML Engineer</span>
+            <span class="domain">Domain: Artificial Intelligence</span>
+          </div>
         </div>
+        <div class="points">3,890 pts</div>
       </div>
-      <div class="points">3,890 pts</div>
-    </div>
+    </a>
 
     <!-- Rank 5 -->
-    <div class="entry">
-      <div class="entry-left">
-        <span class="rank">5</span>
-        <img class="avatar" src="https://randomuser.me/api/portraits/men/84.jpg" alt="">
-        <div class="details">
-          <span>Tesla</span>
-          <span>UI/UX Designer</span>
-          <span class="domain">Domain: Design & User Experience</span>
+    <a class="entry-link" href="chat.html?company=Tesla&name=David%20Wilson&title=UI%2FUX%20Designer&avatar=https%3A%2F%2Frandomuser.me%2Fapi%2Fportraits%2Fmen%2F84.jpg&domain=Design%20%26%20User%20Experience&points=3720">
+      <div class="entry">
+        <div class="entry-left">
+          <span class="rank">5</span>
+          <img class="avatar" src="https://randomuser.me/api/portraits/men/84.jpg" alt="">
+          <div class="details">
+            <span class="company">Tesla</span>
+            <span class="user"><strong>David Wilson</strong> – UI/UX Designer</span>
+            <span class="domain">Domain: Design & User Experience</span>
+          </div>
         </div>
+        <div class="points">3,720 pts</div>
       </div>
-      <div class="points">3,720 pts</div>
-    </div>
+    </a>
+
   </div>
 
-  <!-- Pagination -->
   <div class="pagination">
-   <a href="dashboard.html" class="btn-prev">&larr; Prev</a>
+    <a href="dashboard.html" class="btn-prev">&larr; Prev</a>
     <span>1 / 3</span>
-   <a href="#" class="btn-prev">&larr; Next</a>
+    <a href="#" class="btn-next">Next &rarr;</a>
   </div>
+
+  <footer>
+    &copy; 2025 XShared. All rights reserved.
+  </footer>
 
   <script>
     function toggleDropdown(id) {
-      // Close all dropdowns first
       document.querySelectorAll('.dropdown').forEach(d => d.style.display = 'none');
-      // Open the clicked one if it was closed
       const dropdown = document.getElementById('dropdown-' + id);
       if (dropdown) dropdown.style.display = 'flex';
     }
-    // Close dropdowns when clicking outside
     document.addEventListener('click', function(event) {
       if (!event.target.closest('.domain-filter')) {
         document.querySelectorAll('.dropdown').forEach(d => d.style.display = 'none');
       }
     });
   </script>
+
 </body>
 </html>
