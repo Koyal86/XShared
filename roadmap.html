@@ -6,185 +6,112 @@
   <title>AI Career Roadmap</title>
   <style>
     /* Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+    * {margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
     body {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #ffffff;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      background: linear-gradient(135deg,#0077ff,#00c0ff);
+      color: #111;
       overflow-x: hidden;
       position: relative;
     }
 
-    /* Floating Particles */
-    .particles span {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: rgba(255,255,255,0.25);
-      border-radius: 50%;
-      animation: float 10s linear infinite;
-    }
-    .particles span:nth-child(2) { left: 25%; animation-duration: 12s; }
-    .particles span:nth-child(3) { left: 50%; animation-duration: 15s; }
-    .particles span:nth-child(4) { left: 75%; animation-duration: 18s; }
-    @keyframes float {
-      0% { transform: translateY(100vh) scale(0.6); opacity: 0.4; }
-      50% { opacity: 1; }
-      100% { transform: translateY(-10vh) scale(1); opacity: 0; }
-    }
-
     /* Navbar */
     nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(31,31,31,0.7);
+      position: sticky; top: 0; z-index: 100;
+      background: #fff;
       padding: 14px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    nav a {
-      text-decoration: none;
-      font-weight: bold;
-      transition: transform 0.3s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
     nav .logo {
-      font-size: 1.4rem;
-      color: #00d4ff;
+      display: flex; align-items: center; font-size:1.5rem; font-weight:700;
+      color:#1e3c72; text-decoration:none; gap:10px;
     }
-    nav .logo:hover {
-      transform: scale(1.1) rotate(-1deg);
-    }
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 24px;
-    }
-    nav ul li a {
-      color: #fff;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-    nav ul li a.active {
-      color: #00d4ff;
-      border-bottom: 2px solid #00d4ff;
-    }
-    nav ul li a:hover {
-      color: #00f0ff;
-    }
+    nav .logo img { width:36px; height:36px; object-fit:cover; border-radius:8px; }
+    nav ul { list-style: none; display: flex; gap: 24px; }
+    nav ul li a { color:#1e3c72; text-decoration:none; font-weight:600; transition: color 0.3s; }
+    nav ul li a.active { color: #005ecb; border-bottom: 2px solid #005ecb; }
+    nav ul li a:hover { color: #003f7f; }
 
     /* Container */
-    .container {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 60px 20px;
-    }
+    .container { flex:1; display:flex; justify-content:center; align-items:flex-start; padding:60px 20px; }
     .card {
-      background: rgba(255,255,255,0.05);
+      background: #ffffff;
       padding: 40px;
-      width: 100%;
-      max-width: 700px;
+      width:100%; max-width:700px;
       border-radius: 16px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-      backdrop-filter: blur(15px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
       transform: translateY(30px);
       animation: slideUp 1.2s ease forwards;
     }
-    @keyframes slideUp {
-      from { transform: translateY(30px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
+    @keyframes slideUp {from {transform:translateY(30px); opacity:0;} to {transform:translateY(0); opacity:1;}}
     .card h2 {
       text-align: center;
       font-size: 2rem;
-      color: #fff;
+      color: #005ecb;
       margin-bottom: 30px;
-      border-bottom: 2px solid #00d4ff;
+      border-bottom: 2px solid #005ecb;
       padding-bottom: 10px;
     }
 
-    .form-group {
-      margin-bottom: 24px;
-    }
-    .form-group label {
-      display: block;
-      margin-bottom: 10px;
-      font-size: 1rem;
-      color: #cfcfcf;
-    }
+    .form-group { margin-bottom:24px; }
+    .form-group label { display:block; margin-bottom:10px; font-size:1rem; color:#003f7f; }
     .form-group select,
     .form-group input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 8px;
-      background: rgba(255,255,255,0.1);
-      color: #ffffff;
-      font-size: 1rem;
-      outline: none;
-      transition: border-color 0.3s ease;
+      width:100%; padding:12px;
+      border:1px solid rgba(0,0,0,0.15);
+      border-radius:8px; background: #f0f8ff;
+      color:#111; font-size:1rem; outline:none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
     .form-group select:focus,
     .form-group input:focus {
-      border-color: #00d4ff;
-      box-shadow: 0 0 15px rgba(0,212,255,0.6);
+      border-color:#005ecb; box-shadow:0 0 10px rgba(0,94,203,0.4);
     }
 
     .btn-submit {
-      border: none;
-      padding: 12px 26px;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 1rem;
-      cursor: pointer;
-      background: linear-gradient(135deg,#00d4ff,#0077ff);
-      color: white;
+      border:none; padding:12px 26px; border-radius:8px;
+      font-weight:bold; font-size:1rem; cursor:pointer;
+      background: linear-gradient(135deg,#005ecb,#00aaff);
+      color:#ffffff; width:100%; margin-top:10px;
       transition: transform 0.25s ease, background 0.3s ease;
-      width: 100%;
-      margin-top: 10px;
     }
     .btn-submit:hover {
       transform: scale(1.05);
-      background: linear-gradient(135deg,#00f0ff,#0099ff);
+      background: linear-gradient(135deg,#003f7f,#0077cc);
     }
 
     .roadmap {
-      margin-top: 30px;
-      padding: 20px;
-      background: rgba(0,0,0,0.3);
-      border-radius: 12px;
+      margin-top:30px; padding:20px;
+      background: #e6f0ff;
+      border-radius:12px;
     }
-    .roadmap h3 {
-      margin-bottom: 15px;
-      color: #00d4ff;
+    .roadmap h3 { margin-bottom:15px; color:#005ecb; }
+    .roadmap ol { margin-left:20px; line-height:1.8; color:#111; }
+
+    /* Footer */
+    footer {
+      width:100%; padding:20px; text-align:center;
+      background: #fff;
+      border-top: 1px solid rgba(0,0,0,0.1);
+      color: #1e3c72; font-weight:500;
     }
-    .roadmap ol {
-      margin-left: 20px;
-      line-height: 1.8;
-      color: #fff;
-    }
+    footer a { color:#005ecb; text-decoration:none; transition:color 0.3s; }
+    footer a:hover { color:#003f7f; }
   </style>
 </head>
 <body>
-  <div class="particles"><span></span><span></span><span></span><span></span></div>
 
   <!-- Navbar -->
   <nav>
-    <a class="logo" href="#">XShared</a>
-    <ul>
+  <a class="logo" href="#">
+    <img src="https://cdn-icons-png.flaticon.com/512/808/808570.png" alt="Rocket Logo">XShared
+  </a>
+  <ul>
       <li><a href="welcome.html">Home</a></li>
       <li><a href="dashboard.html">Dashboard</a></li>
       <li><a href="profile.html">Profile</a></li>
@@ -197,7 +124,6 @@
     <div class="card">
       <h2>AI-Powered Career Roadmap</h2>
 
-      <!-- Role Input -->
       <div class="form-group">
         <label>Select Your Target Role</label>
         <select>
@@ -215,7 +141,6 @@
 
       <button class="btn-submit" onclick="showRoadmap()">Generate Roadmap</button>
 
-      <!-- Output Section -->
       <div class="roadmap" id="roadmap" style="display:none;">
         <h3>Your Roadmap to Data Scientist</h3>
         <ol>
@@ -227,6 +152,11 @@
       </div>
     </div>
   </div>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 XShared. Made with ❤️ by <a href="#">Your Company</a>.
+  </footer>
 
   <script>
     function showRoadmap() {
