@@ -3,71 +3,108 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Landing Page</title>
-  <link rel="stylesheet" href="style.css"> <!-- Using same styles as index.html -->
+  <title>XShared | From Campus to Career</title>
   <style>
-    /* Top Navbar */
+    :root {
+      --primary: #6366f1;   /* Indigo */
+      --secondary: #06b6d4; /* Cyan */
+    }
+
+    /* Reset */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #ffffff;
+      color: #111827;
+    }
+
+    /* Navbar */
     nav {
       width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 20px 60px;
-      background-color: rgba(0, 0, 0, 0.6);
+      background-color: rgba(255,255,255,0.9);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
       position: fixed;
       top: 0;
       left: 0;
       z-index: 1000;
       min-height: 70px;
+      backdrop-filter: blur(6px);
     }
     nav .logo {
       font-size: 22px;
-      color: #fff;
       font-weight: bold;
+      color: var(--primary);
       text-decoration: none;
-      flex-shrink: 0;
     }
     nav ul {
       list-style: none;
       display: flex;
-      justify-content: flex-end;
-      align-items: center;
       gap: 40px;
-      flex: 1;
       margin: 0;
       padding: 0;
     }
     nav ul li a {
-      color: #fff;
+      color: #111827;
       text-decoration: none;
       font-size: 16px;
       transition: color 0.3s;
-      white-space: nowrap;
     }
     nav ul li a:hover {
-      color: #8a6dff;
+      color: var(--primary);
     }
     nav ul li a.active {
-      color: #8a6dff;
-      border-bottom: 3px solid #8a6dff;
+      color: var(--primary);
       font-weight: 600;
+      border-bottom: 3px solid var(--primary);
     }
 
     /* Hero Section */
     .hero {
-      padding: 140px 20px 80px;
+      padding: 140px 20px 100px;
       text-align: center;
-      background: linear-gradient(135deg, #1e1e2f, #0d0d1a);
       color: #fff;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      position: relative;
+      overflow: hidden;
     }
     .hero h1 {
       font-size: 40px;
       margin-bottom: 15px;
+      position: relative;
+      z-index: 2;
     }
     .hero p {
       font-size: 18px;
       max-width: 700px;
       margin: 0 auto 30px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Subtle Background Shapes */
+    .hero::before, .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.07);
+      z-index: 1;
+    }
+    .hero::before {
+      width: 280px;
+      height: 280px;
+      top: -80px;
+      left: -80px;
+    }
+    .hero::after {
+      width: 200px;
+      height: 200px;
+      bottom: -60px;
+      right: -60px;
     }
 
     /* Stats Section */
@@ -77,25 +114,24 @@
       gap: 40px;
       text-align: center;
       padding: 60px 20px;
-      background: #141421;
-      color: #fff;
+      background: #f2f2f3;
     }
     .stat-item h2 {
       font-size: 28px;
       margin-bottom: 10px;
-      color: #8a6dff;
+      color: var(--primary);
     }
     .stat-item p {
       font-size: 16px;
-      color: #ccc;
+      color: #555;
     }
 
-    /* Features Section */
+     /* Features Section */
     .features {
       padding: 80px 20px;
       text-align: center;
-      background: linear-gradient(135deg, #141421, #0b0c10);
-      color: #fff;
+      background: #ffffff;
+      color: #111827;
     }
     .features h2 {
       font-size: 32px;
@@ -105,6 +141,7 @@
       font-size: 16px;
       max-width: 700px;
       margin: 0 auto 50px;
+      opacity: 0.85;
     }
     .feature-grid {
       max-width: 1100px;
@@ -116,15 +153,17 @@
     .feature-item {
       display: block;
       text-decoration: none;
-      background-color: rgba(255,255,255,0.05);
+      background-color: #f9fafb;
       border-radius: 12px;
       padding: 30px 20px;
       transition: transform 0.3s ease, background 0.3s ease;
       color: inherit;
+      border: 1px solid rgba(0,0,0,0.06);
     }
     .feature-item:hover {
       transform: translateY(-5px);
-      background-color: rgba(255,255,255,0.1);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
     }
     .feature-item img {
       width: 60px;
@@ -133,11 +172,21 @@
     .feature-item h3 {
       font-size: 20px;
       margin-bottom: 10px;
-      color: #fff;
+      font-weight: 600;
     }
     .feature-item p {
       font-size: 14px;
-      color: #ccc;
+      opacity: 0.85;
+    }
+
+    /* Active Feature Item */
+    .feature-item.active {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+    }
+    .feature-item.active h3,
+    .feature-item.active p {
+      color: #fff;
     }
 
     /* Footer */
@@ -170,6 +219,8 @@
     }
     .footer-column ul {
       list-style: none;
+      padding: 0;
+      margin: 0;
     }
     .footer-column ul li {
       margin-bottom: 8px;
@@ -235,7 +286,7 @@
       <h3>Internship</h3>
       <p>Connect with top companies and land real-world projects.</p>
     </a>
-    <a href="courses.html" class="feature-item">
+    <a href="course.html" class="feature-item">
       <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" alt="Courses Icon">
       <h3>Courses</h3>
       <p>Learn industry-ready skills from curated learning paths.</p>
