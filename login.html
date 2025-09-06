@@ -6,66 +6,89 @@
   <title>XShare - Login</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="style.css" rel="stylesheet">
   <style>
-    /* Background with subtle gradient + pattern */
+    :root {
+      --primary: #6366f1;   /* Indigo */
+      --secondary: #06b6d4; /* Cyan */
+    }
+
     body {
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  background-attachment: fixed;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.card {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.2);
-  color: #fff;
-}
-.btn-primary {
-  background: linear-gradient(135deg, #00f2fe, #4facfe);
-  border: none;
-}
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #111827;
+    }
 
+    /* Subtle background shapes */
+    body::before, body::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      z-index: 1;
+    }
+    body::before { width: 300px; height: 300px; top: -100px; left: -80px; }
+    body::after { width: 200px; height: 200px; bottom: -80px; right: -60px; }
 
-    /* Card animation + glow */
+    /* Card */
     .card {
       position: relative;
-      z-index: 10;
-      animation: fadeInUp 0.6s ease;
-      transition: box-shadow 0.3s ease, transform 0.2s ease;
+      z-index: 2;
+      max-width: 420px;
+      width: 100%;
+      background-color: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
       border-radius: 16px;
+      padding: 30px 25px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 8px 30px rgba(79, 172, 254, 0.5);
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      box-shadow: 0 12px 40px rgba(99,102,241,0.4);
     }
 
-    /* Typing effect for heading */
+    /* Animated heading */
     .typing {
       overflow: hidden;
       white-space: nowrap;
-      border-right: 3px solid #4facfe;
+      border-right: 3px solid var(--primary);
       animation: typing 2s steps(20) forwards, blink .7s infinite;
+      font-weight: 600;
+      font-size: 1.5rem;
+      text-align: center;
+      margin-bottom: 0.5rem;
     }
     @keyframes typing { from { width: 0 } to { width: 100% } }
     @keyframes blink { 50% { border-color: transparent } }
 
-    /* Dark mode */
-    body.dark-mode {
-      background: #121212 !important;
-      color: #eee;
+    /* Form inputs */
+    .form-control, .input-group-text {
+      border-radius: 8px;
     }
-    body.dark-mode::before { opacity: 0.05; }
-    body.dark-mode .card {
-      background-color: #1e1e1e;
-      color: #eee;
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border: none;
+      font-weight: 600;
     }
+    .btn-primary:hover {
+      opacity: 0.9;
+    }
+    .btn-outline-secondary {
+      border-radius: 8px;
+    }
+
+    /* Social buttons */
+    .btn-outline-danger, .btn-outline-dark {
+      border-radius: 8px;
+      font-weight: 500;
+    }
+
+    /* Dark toggle button */
     .toggle-dark {
       cursor: pointer;
       position: absolute;
@@ -75,7 +98,13 @@
       background: none;
       font-size: 1.4rem;
       color: #fff;
-      z-index: 11;
+      z-index: 3;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .card { padding: 20px 15px; }
+      .typing { font-size: 1.3rem; }
     }
   </style>
 </head>
@@ -84,11 +113,11 @@
   <!-- Dark mode toggle -->
   <button id="darkToggle" class="toggle-dark"><i class="bi bi-moon-fill"></i></button>
 
-  <div class="container d-flex justify-content-center align-items-center">
-    <div class="card shadow-lg p-4" style="max-width:420px; width:100%;">
+  <div class="container d-flex justify-content-center align-items-center position-relative" style="z-index:2;">
+    <div class="card">
       
       <!-- Animated heading -->
-      <h3 class="text-center mb-2 typing">Sign in to <span class="text-primary">XShare</span></h3>
+      <h3 class="typing text-center">Sign in to <span style="color: var(--primary)">XShare</span></h3>
       <p class="text-muted text-center mb-4">Access your account and explore amazing posts 🚀</p>
 
       <!-- Login Form -->
@@ -137,7 +166,6 @@
     </div>
   </div>
 
-<script src="script.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   // Show/hide password
